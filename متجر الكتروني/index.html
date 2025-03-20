@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الصفحة الرئيسية - متجر adpl</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      /* استخدام صورة الخلفية للمتجر */
+      background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh1n18guBDeMj4RP3g0YzeFe8YZypgT4gLlUCl-ggNn-bkAaumX4mxBK5kWpF_Skwf_p-R7zeUkjwnm1daaUC29bW30N6hhiTncgVEzZzTePwI-ROvAmTdGAXKA29Q9iMHyt5sG1TPJHTQ/s1280/%25D8%25AE%25D9%2584%25D9%2581%25D9%258A%25D8%25A7%25D8%25AA-%25D8%25B3%25D8%25A7%25D8%25AF%25D8%25A9-%25D9%2581%25D8%25A7%25D8%25B1%25D8%25BA%25D8%25A9-%25D9%2584%25D9%2584%25D8%25AA%25D8%25B5%25D9%2585%25D9%258A%25D9%2585-1.jpg');
+      background-size: cover;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      direction: rtl;
+    }
+    /* لا تغطي خلفية المتجر الصورة */
+    #content-wrapper {
+      background: transparent;
+      min-height: 100vh;
+    }
+    /* الشعار الثابت */
+    #logo-section {
+      text-align: center;
+      padding: 10px;
+      background: #fff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    #logo-section img {
+      max-width: 150px;
+    }
+    /* نافبار الصفحة مع خلفية القائمة العلوية */
+    .navbar {
+      display: flex;
+      align-items: center;
+      background: url('https://wallpapersworld.org/wp-content/uploads/2023/03/%D8%AE%D9%84%D9%81%D9%8A%D8%A7%D8%AA-%D8%B3%D8%A7%D8%AF%D8%A9-%D9%84%D9%84%D8%AA%D8%B5%D9%85%D9%8A%D9%85-%D8%A8%D8%AF%D9%82%D8%A9-%D8%B9%D8%A7%D9%84%D9%8A%D8%A9-15.jpg') no-repeat center center;
+      background-size: cover;
+      padding: 10px 15px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    /* ترتيب أيقونات النافبار */
+    .navbar-left {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .navbar-center {
+      flex: 1;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+      color: #007bff;
+    }
+    .navbar-right {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    .menu-icon, .profile-icon, .search-icon, .cart-icon {
+      cursor: pointer;
+      font-size: 20px;
+    }
+    .cart-icon { position: relative; }
+    .cart-count {
+      position: absolute;
+      top: -3px;
+      right: -3px;
+      background: red;
+      color: #fff;
+      font-size: 10px;
+      border-radius: 50%;
+      width: 14px;
+      height: 14px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+    }
+    #cart-total { font-size: 14px; color: #333; }
+    .search-input {
+      display: none;
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 150px;
+    }
+    /* السلايدر باستخدام الصور */
+    .slider {
+      width: 90%;
+      height: 150px;
+      margin: 20px auto;
+      border-radius: 10px;
+      background-size: cover;
+      background-position: center;
+    }
+    /* عنوان المنتجات */
+    .products-title {
+      text-align: center;
+      font-size: 24px;
+      margin: 20px 0 10px;
+      color: #007bff;
+      font-weight: bold;
+    }
+    /* قسم المنتجات */
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 10px;
+    }
+    .product {
+      background: #fff;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .product:hover { transform: scale(1.05); }
+    .product img { width: 120px; height: 120px; object-fit: cover; margin-bottom: 10px; }
+    .order-btn {
+      background: green;
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      cursor: pointer;
+      margin-top: 5px;
+      border-radius: 5px;
+      transition: background 0.3s ease;
+    }
+    .order-btn:hover { background: #006400; }
+    /* القائمة الجانبية */
+    #side-menu {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 250px;
+      height: 100%;
+      background: #fff;
+      box-shadow: -2px 0 5px rgba(0,0,0,0.3);
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      z-index: 600;
+      padding: 20px;
+    }
+    #side-menu.open { transform: translateX(0); }
+    #side-menu a {
+      display: block;
+      padding: 10px 0;
+      text-decoration: none;
+      color: #333;
+      border-bottom: 1px solid #ccc;
+      cursor: pointer;
+    }
+    #side-menu a.whatsapp { color: #25D366; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <!-- محتوى المتجر -->
+  <div id="content-wrapper">
+    <!-- الشعار الثابت -->
+    <div id="logo-section">
+      <img src="https://i.imgur.com/QrWwcAB.jpeg" alt="شعار المتجر">
+    </div>
+    
+    <!-- نافبار الصفحة -->
+    <div class="navbar">
+      <div class="navbar-left">
+        <span class="menu-icon" onclick="toggleSideMenu()">☰</span>
+        <span class="profile-icon" onclick="profileClicked()">👤</span>
+      </div>
+      <div class="navbar-center">
+        <span class="navbar-title">متجر adpl</span>
+      </div>
+      <div class="navbar-right">
+        <img src="https://e7.pngegg.com/pngimages/403/322/png-clipart-computer-icons-search-box-button-button-desktop-wallpaper-search-box.png" alt="بحث" class="search-icon" style="width:24px; cursor:pointer;" onclick="toggleSearch()">
+        <input type="text" id="search-input" class="search-input" placeholder="بحث عن منتجات..." onkeyup="searchProducts(this.value)">
+        <span class="cart-icon" onclick="window.location.href='cart.html'">
+          <img src="https://png.pngtree.com/png-vector/20191026/ourmid/pngtree-shopping-basket-icon-png-image_1871519.jpg" alt="سلة" style="width:24px; vertical-align:middle; cursor:pointer;">
+          <span class="cart-count" id="cart-count">0</span>
+        </span>
+        <span id="cart-total">المجموع: 0 ريال</span>
+      </div>
+    </div>
+    
+    <!-- القائمة الجانبية -->
+    <div id="side-menu">
+      <a onclick="toggleSideMenu()">إغلاق القائمة</a>
+      <a href="index.html" onclick="toggleSideMenu()">الرئيسية</a>
+      <a href="electronics.html" onclick="toggleSideMenu()">الإلكترونيات</a>
+      <a onclick="profileClicked(); toggleSideMenu()">حسابي</a>
+      <a onclick="window.open('https://wa.me/966500640335', '_blank'); toggleSideMenu()" class="whatsapp">تواصل معنا على واتساب</a>
+      <a onclick="window.location.href='cart.html'; toggleSideMenu()">السلة</a>
+    </div>
+    
+    <!-- السلايدر -->
+    <div id="slider" class="slider"></div>
+    <!-- عنوان المنتجات -->
+    <div class="products-title">المنتجات</div>
+    <!-- قسم المنتجات -->
+    <div id="products-container" class="products"></div>
+  </div>
+  
+  <script>
+    // إغلاق القائمة عند النقر خارجها
+    document.addEventListener("click", function(e) {
+      let sideMenu = document.getElementById("side-menu");
+      if(sideMenu.classList.contains("open") && !e.target.closest("#side-menu") && !e.target.closest(".menu-icon")) {
+        sideMenu.classList.remove("open");
+      }
+    });
+    
+    // التحقق من حالة تسجيل الدخول
+    function profileClicked() {
+      let user = localStorage.getItem("loggedUser");
+      if(user) {
+        window.location.href = "account.html";
+      } else {
+        window.location.href = "login.html";
+      }
+    }
+    
+    // دوال القائمة الجانبية
+    function toggleSideMenu() {
+      let sideMenu = document.getElementById("side-menu");
+      sideMenu.classList.toggle("open");
+    }
+    
+    // تبديل ظهور حقل البحث
+    function toggleSearch() {
+      let searchInput = document.getElementById("search-input");
+      searchInput.style.display = (searchInput.style.display === "block") ? "none" : "block";
+      if(searchInput.style.display === "block") { searchInput.focus(); }
+    }
+    
+    // مصفوفة المنتجات (مثال ويمكن التعديل)
+    let products = [
+      { name: " سماعه ذكيه ", price: 35, img: "https://ae-pic-a1.aliexpress-media.com/kf/Sff543c6811ef41c482fb31492a7882b9S.png_220x220.png_.avif", description: "LAXASFIT H9 Smartwatch - اتصال هاتفي وتتبع السعرات ومعدل ضربات القلب." },
+      { name: "يد تحكم للبليستيشن", price: 55, img: "https://ae-pic-a1.aliexpress-media.com/kf/S63b33cfa28ce4d62bbe6c68c532c1204O.jpg_220x220q75.jpg_.avif", description: "يد تحكم متطور للبليستيشن." },
+      { name: "وحدة تحكم العاب", price: 165, img: "https://ae-pic-a1.aliexpress-media.com/kf/Sbce4990c459b46248dd1da84b86f6b0bH.jpg_220x220q75.jpg_.avif", description: "وحدة تحكم مع سماعات صوتية عالية الجودة." },
+      { name: " نظارات للرجال والنساء ", price: 35, img: "https://ae-pic-a1.aliexpress-media.com/kf/Sb29f853ad2cb4a1283c307b8a74404b3d.jpg_220x220q75.jpg_.avif", description: "نظارات شمسية مع حماية UV400 وتصميم عصري." },
+      { name: "كفر حماية", price: 29, img: "https://ae-pic-a1.aliexpress-media.com/kf/Sf5d8e207f3be4f8cab1ae057d63be742C.jpg_220x220q75.jpg_.avif", description: "كفر حماية عالي الجودة لهاتفك." }
+    ];
+    
+    function displayProducts(productList) {
+      let container = document.getElementById("products-container");
+      container.innerHTML = "";
+      productList.forEach((product, index) => {
+        container.innerHTML += `
+          <div class="product" onclick="goToProductDetails(${index})">
+            <img src="${product.img}" alt="${product.name}">
+            <h3>${product.name}</h3>
+            <p>السعر: ${product.price} ريال</p>
+            <button class="order-btn" onclick="event.stopPropagation(); addToCart('${product.name}', ${product.price}, '${product.img}', '${product.description}')">🛒 أضف للسلة</button>
+          </div>
+        `;
+      });
+    }
+    displayProducts(products);
+    
+    function searchProducts(query) {
+      let filtered = products.filter(product => product.name.toLowerCase().includes(query.toLowerCase()));
+      displayProducts(filtered);
+    }
+    
+    // السلايدر باستخدام الصور
+    let slides = [
+      'https://cdn.youcan.shop/stores/c60cdb42e65e6c2545ab3cc667e6fca4/others/7acJcQ8kLzBTUtrgVsY8xvxPjv32W7L4jvByqP6y.png',
+      'https://cdn.youcan.shop/stores/37a316e81ea7ca1bbe209a10b8e8694b/others/9flv1t9RDbC1PJyBRhizv7JWjK7L410qGqaDc4u5.png',
+      'https://cdn.youcan.shop/stores/926ef875f015ee2050a3751649310090/others/GvZ0YESR78jSXwbSGRyv0wARqEexMPYlSgqOcQIQ.png'
+    ];
+    let currentSlide = 0;
+    function showSlide(index) {
+      let slider = document.getElementById("slider");
+      slider.style.backgroundImage = `url('${slides[index]}')`;
+    }
+    showSlide(currentSlide);
+    setInterval(() => {
+      currentSlide = (currentSlide + 1) % slides.length;
+      showSlide(currentSlide);
+    }, 4000);
+    
+    // وظائف السلة
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    function updateCartCount() {
+      document.getElementById("cart-count").innerText = cart.length;
+      updateCartTotalInNavbar();
+    }
+    function updateCartTotalInNavbar() {
+      let total = cart.reduce((sum, item) => sum + item.price, 0);
+      document.getElementById("cart-total").innerText = "المجموع: " + total + " ريال";
+    }
+    function addToCart(name, price, img, description) {
+      cart.push({ name, price, img, description });
+      localStorage.setItem("cart", JSON.stringify(cart));
+      updateCartCount();
+      alert("تم إضافة المنتج إلى السلة");
+    }
+    updateCartCount();
+    
+    // عند النقر على منتج يتم تخزين بياناته والانتقال إلى صفحة التفاصيل
+    function goToProductDetails(index) {
+      localStorage.setItem("selectedProduct", JSON.stringify(products[index]));
+      window.location.href = "product-details.html";
+    }
+  </script>
+</body>
+</html>

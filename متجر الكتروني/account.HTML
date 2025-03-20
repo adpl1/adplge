@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>حسابي - متجر adpl</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background-color: #f4f4f4; direction: rtl; }
+    #logo-section { text-align: center; padding: 10px; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    #logo-section img { max-width: 150px; }
+    #account-page {
+      background: #fff; max-width: 400px; margin: 80px auto 20px; padding: 20px;
+      border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); text-align: center;
+    }
+    #account-page h2 { margin-top: 0; }
+    #account-page p { margin: 8px 0; font-size: 16px; }
+    #account-page button {
+      width: 95%; padding: 10px; border: none; background: #dc3545; color: #fff;
+      border-radius: 5px; cursor: pointer; margin-top: 10px;
+    }
+    #account-page button:hover { background: #c82333; }
+  </style>
+</head>
+<body>
+  <div id="logo-section">
+    <img src="https://i.imgur.com/QrWwcAB.jpeg" alt="شعار المتجر">
+  </div>
+  <div id="account-page">
+    <h2>حسابي</h2>
+    <p id="acc-name"></p>
+    <p id="acc-email"></p>
+    <p id="acc-phone"></p>
+    <button onclick="logout()">تسجيل الخروج</button>
+  </div>
+  <script>
+    function loadAccountData() {
+      let user = JSON.parse(localStorage.getItem("loggedUser"));
+      if(user) {
+        document.getElementById("acc-name").innerText = "الاسم: " + user.name;
+        document.getElementById("acc-email").innerText = "البريد الإلكتروني: " + user.email;
+        document.getElementById("acc-phone").innerText = "رقم الهاتف: " + user.phone;
+      } else {
+        window.location.href = "login.html";
+      }
+    }
+    function logout() {
+      localStorage.removeItem("loggedUser");
+      localStorage.removeItem("accountLabel");
+      window.location.href = "index.html";
+    }
+    loadAccountData();
+  </script>
+</body>
+</html>

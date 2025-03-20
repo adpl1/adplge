@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تفاصيل المنتج</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      direction: rtl;
+      background: #f5f5f5;
+    }
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .slider-container {
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px;
+    }
+    .slides {
+      display: flex;
+      transition: transform 0.3s ease;
+    }
+    .slides img {
+      width: 100%;
+      object-fit: cover;
+    }
+    .details {
+      margin-top: 20px;
+    }
+    .order-btn {
+      background: green;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background 0.3s ease;
+    }
+    .order-btn:hover { background: #006400; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="product-container"></div>
+  </div>
+  
+  <script>
+    // جلب بيانات المنتج من التخزين المحلي
+    let product = JSON.parse(localStorage.getItem("selectedProduct"));
+    // مجموعة صور للمعرض (يمكنك تعديلها لاحقاً)
+    let slideImages = [
+      product.img, 
+      "https://via.placeholder.com/800x400/ff7f7f/333333?text=الصورة+2",
+      "https://via.placeholder.com/800x400/7fbfff/333333?text=الصورة+3"
+    ];
+    
+    // إعداد معرض الصور مع دعم السحب
+    let currentSlide = 0;
+    function renderSlides() {
+      const slidesContainer = document.getElementById("slides");
+      slidesContainer.innerHTML = slideImages.map(src => `<img src="${src}" alt="صورة المنتج">`).join("");
+    }
+    function updateSlidePosition() {
+      const slidesContainer = document.getElementById("slides");
+      slidesContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
+    }
+    
+    let startX = 0;
+    let isDragging = false;
+    const slider = document.getElementById("slider");
+    
+    function touchStart(e) {
+      isDragging = true;
+      startX = e.touches[0].clientX;
+    }
+    function touchMove(e) {
+      if(!isDragging) return;
+      let currentX = e.touches[0].clientX;
+      let diff = startX - currentX;
+      // لا نقوم بتحديث الواجهة هنا، فقط ننتظر الانتهاء من السحب
+    }
+    function touchEnd(e) {
+      if(!isDragging) return;
+      let endX = e.changedTouches[0].clientX;
+      let diff = startX - endX;
+      if(diff > 50 && currentSlide < slideImages.length - 1) {
+        currentSlide++;
+      } else if(diff < -50 && currentSlide > 0) {
+        currentSlide--;
+      }
+      updateSlidePosition();
+      isDragging = false;
+    }
+    
+    // عرض تفاصيل المنتج مع المعرض
+    if(product) {
+      document.getElementById("product-container").innerHTML = `
+         <h2>${product.name}</h2>
+         <div class="slider-container" id="slider" 
+              ontouchstart="touchStart(event)" 
+              ontouchmove="touchMove(event)" 
+              ontouchend="touchEnd(event)">
+           <div class="slides" id="slides">
+             <!-- سيتم تحميل الصور هنا -->
+           </div>
+         </div>
+         <div class="details">
+            <p>السعر: ${product.price} ريال</p>
+            <p>التفاصيل: ${product.description}</p>
+            <button class="order-btn" onclick="addToCart('${product.name}', ${product.price}, '${product.img}', '${product.description}')">🛒 أضف للسلة</button>
+         </div>
+      `;
+      renderSlides();
+    } else {
+      document.getElementById("product-container").innerHTML = "<p>لا توجد تفاصيل للعرض</p>";
+    }
+    
+    function addToCart(name, price, img, description) {
+       let cart = JSON.parse(localStorage.getItem("cart")) || [];
+       cart.push({ name, price, img, description });
+       localStorage.setItem("cart", JSON.stringify(cart));
+       alert("تم إضافة المنتج إلى السلة");
+    }
+  </script>
+</body>
+</html>

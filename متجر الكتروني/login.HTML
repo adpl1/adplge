@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تسجيل الدخول - متجر adpl</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background-color: #f4f4f4; direction: rtl; }
+    #logo-section { text-align: center; padding: 10px; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    #logo-section img { max-width: 150px; }
+    #login-page {
+      background: #fff; max-width: 400px; margin: 80px auto 20px; padding: 20px;
+      border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); text-align: center;
+    }
+    #login-page h2 { margin-top: 0; }
+    #login-page input { width: 90%; margin: 10px 0; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
+    #login-page button { width: 95%; padding: 10px; border: none; background: #007bff; color: #fff; border-radius: 5px; cursor: pointer; margin-top: 10px; }
+    #login-page button:hover { background: #0056b3; }
+    .back-btn { background: #333; color: #fff; border: none; padding: 10px; cursor: pointer; margin-top: 10px; }
+    .back-btn:hover { background: #555; }
+  </style>
+</head>
+<body>
+  <div id="logo-section">
+    <img src="https://i.imgur.com/QrWwcAB.jpeg" alt="شعار المتجر">
+  </div>
+  <div id="login-page">
+    <h2>تسجيل الدخول</h2>
+    <input type="text" id="login-name" placeholder="الاسم"><br>
+    <input type="email" id="login-email" placeholder="البريد الإلكتروني"><br>
+    <input type="text" id="login-phone" placeholder="رقم الهاتف"><br>
+    <input type="password" id="login-password" placeholder="كلمة السر"><br>
+    <button onclick="login()">تسجيل الدخول</button><br>
+    <button class="back-btn" onclick="window.location.href='index.html'">رجوع</button>
+  </div>
+  <script>
+    function login() {
+      let name = document.getElementById("login-name").value;
+      let email = document.getElementById("login-email").value;
+      let phone = document.getElementById("login-phone").value;
+      if(name && email && phone) {
+        let user = { name, email, phone };
+        localStorage.setItem("loggedUser", JSON.stringify(user));
+        localStorage.setItem("accountLabel", "حسابي");
+        window.location.href = "index.html";
+      } else {
+        alert("يرجى ملء جميع الحقول");
+      }
+    }
+  </script>
+</body>
+</html>
